@@ -1,0 +1,66 @@
+// 你可以将属性声明为以下 JS 原生类型
+optionalArray: PropTypes.array,
+optionalBool: PropTypes.bool,
+optionalFunc: PropTypes.func,
+optionalNumber: PropTypes.number,
+optionalObject: PropTypes.object,
+optionalString: PropTypes.string,
+optionalSymbol: PropTypes.symbol,
+
+// 任何可被渲染的元素（包括数字、字符串、子元素或数组）。
+optionalNode: PropTypes.node,
+
+// 一个 React 元素
+optionalElement: PropTypes.element,
+
+// 你也可以声明属性为某个类的实例，这里使用 JS 的
+// instanceof 操作符实现。
+optionalMessage: PropTypes.instanceOf(Message),
+
+// 你也可以限制你的属性值是某个特定值之一
+optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+
+// 限制它为列举类型之一的对象
+optionalUnion: PropTypes.oneOfType([
+PropTypes.string,
+PropTypes.number,
+PropTypes.instanceOf(Message)
+]),
+
+// 一个指定元素类型的数组
+optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+
+// 一个指定类型的对象
+optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+
+// 一个指定属性及其类型的对象
+optionalObjectWithShape: PropTypes.shape({
+color: PropTypes.string,
+fontSize: PropTypes.number
+}),
+
+// 你也可以在任何 PropTypes 属性后面加上 `isRequired` 
+// 后缀，这样如果这个属性父组件没有提供时，会打印警告信息
+requiredFunc: PropTypes.func.isRequired,
+
+// 任意类型的数据
+requiredAny: PropTypes.any.isRequired,
+
+// 自定义验证器。如果验证失败需要返回一个 Error 对象。不要直接
+// 使用 `console.warn` 或抛异常，因为这样 `oneOfType` 会失效。
+customProp: function(props, propName, componentName) {
+    if (!/matchme/.test(props[propName])) {
+    return new Error('Validation failed!');
+    }
+}
+
+name: (props, propName) => {  // 自定义验证
+    console.log(props, propName);
+    if (typeof props[propName] !== 'string') {
+        return new Error('必须传递一个字符串');
+    } else if (props[propName].length >= 5) {
+        return new Error('字符串长度必须小于5')
+    } else {
+        return null;
+    }
+}
